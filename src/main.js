@@ -27,18 +27,89 @@ requestAnimationFrame(raf)
 lenis.on('scroll', ScrollTrigger.update)
 
 // ============================================================================
+// CUSTOM CURSOR (GRANYON STYLE)
+// ============================================================================
+function initCustomCursor() {
+  const cursorWrapper = document.querySelector('.cursor-wrapper')
+  const cursorCircle = document.querySelector('.cursor-circle')
+  const cursorText = document.querySelector('.cursor-text')
+
+  if (!cursorWrapper || !cursorCircle || !cursorText) {
+    console.warn('Cursor elements not found')
+    return
+  }
+
+  // Check if device supports hover (not touch device)
+  const isTouchDevice = window.matchMedia('(hover: none)').matches
+  if (isTouchDevice) {
+    cursorWrapper.style.display = 'none'
+    return
+  }
+
+  // Move cursor wrapper with mouse using translate3d for better performance
+  document.addEventListener('mousemove', (e) => {
+    cursorWrapper.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`
+  })
+
+  // Add hover effects for links and project items
+  const hoverTargets = document.querySelectorAll('a, .works-item')
+
+  hoverTargets.forEach((target) => {
+    target.addEventListener('mouseenter', () => {
+      cursorCircle.style.width = 'var(--cursor-hover-size)'
+      cursorCircle.style.height = 'var(--cursor-hover-size)'
+      cursorCircle.style.backgroundColor = '#fff'
+      cursorText.style.opacity = '1'
+    })
+
+    target.addEventListener('mouseleave', () => {
+      cursorCircle.style.width = 'var(--cursor-size)'
+      cursorCircle.style.height = 'var(--cursor-size)'
+      cursorCircle.style.backgroundColor = '#1a1a1a'
+      cursorText.style.opacity = '0'
+    })
+  })
+}
+
+// ============================================================================
+// SCROLL REVEAL WITH INTERSECTION OBSERVER (GRANYON STYLE)
+// ============================================================================
+function initScrollReveal() {
+  const observerOptions = {
+    threshold: 0.1, // Trigger when 10% of the item is visible
+    rootMargin: '0px 0px -100px 0px', // Start animation slightly before element enters viewport
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        // Add visible class to trigger CSS transition
+        entry.target.classList.add('is-visible')
+        // Stop observing once animation is triggered
+        observer.unobserve(entry.target)
+      }
+    })
+  }, observerOptions)
+
+  // Observe all works items
+  const items = document.querySelectorAll('.works-item')
+  items.forEach((item) => {
+    observer.observe(item)
+  })
+}
+
+// ============================================================================
 // HLS VIDEO STREAMING SETUP
 // ============================================================================
 function initVideoStreaming() {
   const video = document.querySelector('.background-video')
 
   if (!video) {
-    console.warn('Video element not found')
+    console.warn('Background video element not found')
     return
   }
 
-  // Example HLS stream URL (replace with your own)
-  // For testing, you can use: https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8
+  // HLS stream URL
   const videoSrc = 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8'
 
   if (Hls.isSupported()) {
@@ -86,14 +157,39 @@ function initVideoStreaming() {
   } else {
     console.error('HLS is not supported in this browser')
   }
+
+  // Initialize project videos (if any)
+  const projectVideos = document.querySelectorAll('.project-video')
+  projectVideos.forEach((projectVideo) => {
+    if (projectVideo.src && projectVideo.src.includes('.m3u8')) {
+      if (Hls.isSupported()) {
+        const projectHls = new Hls()
+        projectHls.loadSource(projectVideo.src)
+        projectHls.attachMedia(projectVideo)
+        projectHls.on(Hls.Events.MANIFEST_PARSED, () => {
+          projectVideo.play().catch((error) => {
+            console.error('Project video autoplay failed:', error)
+          })
+        })
+      }
+    }
+  })
 }
 
 // ============================================================================
-// GSAP SCROLL ANIMATIONS
+// GSAP SCROLL ANIMATIONS (ENHANCED)
 // ============================================================================
 function initScrollAnimations() {
-  // Hero section fade in
-  gsap.from('.hero-content', {
+  // Hero section fade in with tag animation
+  gsap.from('.tag', {
+    opacity: 0,
+    scale: 0.8,
+    duration: 0.6,
+    delay: 0.3,
+    ease: 'back.out(1.7)',
+  })
+
+  gsap.from('.hero-title', {
     opacity: 0,
     y: 50,
     duration: 1,
@@ -101,36 +197,12 @@ function initScrollAnimations() {
     ease: 'power3.out',
   })
 
-  // Works items scroll animations
-  const worksItems = gsap.utils.toArray('.works-item')
-
-  worksItems.forEach((item, index) => {
-    gsap.from(item, {
-      scrollTrigger: {
-        trigger: item,
-        start: 'top 80%',
-        end: 'top 20%',
-        scrub: 1,
-        // markers: true, // Uncomment for debugging
-      },
-      scale: 0.8,
-      opacity: 0,
-      y: 100,
-      rotation: -5,
-      ease: 'power2.out',
-    })
-  })
-
-  // Section title parallax effect
-  gsap.to('.section-title', {
-    scrollTrigger: {
-      trigger: '.works-section',
-      start: 'top bottom',
-      end: 'bottom top',
-      scrub: 1,
-    },
-    y: -100,
-    ease: 'none',
+  gsap.from('.hero-subtitle', {
+    opacity: 0,
+    y: 30,
+    duration: 1,
+    delay: 0.7,
+    ease: 'power3.out',
   })
 
   // Tech list stagger animation
@@ -144,7 +216,7 @@ function initScrollAnimations() {
     },
     opacity: 0,
     x: -50,
-    stagger: 0.2,
+    stagger: 0.15,
     duration: 0.8,
     ease: 'power3.out',
   })
@@ -157,8 +229,40 @@ function initScrollAnimations() {
       end: 'bottom top',
       scrub: true,
     },
-    opacity: 0.8,
+    opacity: 1,
     ease: 'none',
+  })
+
+  // Navbar background on scroll
+  ScrollTrigger.create({
+    start: 'top -80',
+    end: 99999,
+    toggleClass: {
+      className: 'navbar--scrolled',
+      targets: '.navbar',
+    },
+  })
+}
+
+// ============================================================================
+// SMOOTH ANCHOR SCROLLING
+// ============================================================================
+function initSmoothAnchors() {
+  const anchors = document.querySelectorAll('a[href^="#"]')
+
+  anchors.forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault()
+      const targetId = anchor.getAttribute('href').substring(1)
+      const targetElement = document.getElementById(targetId)
+
+      if (targetElement) {
+        lenis.scrollTo(targetElement, {
+          offset: -100,
+          duration: 1.5,
+        })
+      }
+    })
   })
 }
 
@@ -166,13 +270,19 @@ function initScrollAnimations() {
 // INITIALIZE ON DOM READY
 // ============================================================================
 document.addEventListener('DOMContentLoaded', () => {
-  console.log('Rance 1500 initialized')
+  console.log('🚀 Rance 1500 initialized')
 
+  // Initialize all systems
+  initCustomCursor()
+  initScrollReveal()
   initVideoStreaming()
   initScrollAnimations()
+  initSmoothAnchors()
 
   // Log installed libraries
-  console.log('GSAP version:', gsap.version)
-  console.log('HLS.js supported:', Hls.isSupported())
-  console.log('Lenis initialized:', !!lenis)
+  console.log('✅ GSAP version:', gsap.version)
+  console.log('✅ HLS.js supported:', Hls.isSupported())
+  console.log('✅ Lenis initialized:', !!lenis)
+  console.log('✅ Custom cursor active')
+  console.log('✅ Scroll reveal active')
 })

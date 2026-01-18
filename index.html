@@ -7,7 +7,23 @@
     <title>Rance 1500</title>
   </head>
   <body>
-    <!-- Video Background Section -->
+    <!-- Custom Cursor -->
+    <div class="cursor-wrapper">
+      <div class="cursor-circle"></div>
+      <div class="cursor-text">View</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+      <div class="logo">Rance 1500™</div>
+      <div class="menu">
+        <a href="#works">Works</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section with Video Background -->
     <section class="hero-section">
       <div class="video-container">
         <video
@@ -20,51 +36,100 @@
         <div class="video-overlay"></div>
       </div>
       <div class="hero-content">
+        <div class="tag">Scroll to unfold</div>
         <h1 class="hero-title">Rance 1500</h1>
-        <p class="hero-subtitle">Advanced Video Streaming & Smooth Animations</p>
+        <p class="hero-subtitle">Selected Case Studies</p>
       </div>
     </section>
 
-    <!-- Scroll Animation Section -->
-    <section class="works-section">
-      <h2 class="section-title">Featured Works</h2>
-      <div class="works-grid">
-        <div class="works-item">
-          <div class="works-item-content">
-            <h3>Project Alpha</h3>
-            <p>Scroll-triggered animations with GSAP</p>
-          </div>
+    <!-- Works Collection -->
+    <section class="works-section" id="works">
+      <div class="works-collection">
+
+        <div class="works-item" data-project="ascen">
+          <a href="#" class="works-link">
+            <div class="media-container">
+              <img
+                src="https://cdn.prod.website-files.com/693024c515218072d171e9d9/69380726c2b39a26b6c44405_ascen.webp"
+                alt="Ascen Project"
+                loading="lazy"
+              >
+              <div class="shader"></div>
+            </div>
+            <div class="project-info">
+              <h2>It's all about People</h2>
+              <p>Ascen Brand & Website</p>
+            </div>
+          </a>
         </div>
-        <div class="works-item">
-          <div class="works-item-content">
-            <h3>Project Beta</h3>
-            <p>Smooth scrolling with Lenis</p>
-          </div>
+
+        <div class="works-item" data-project="crysound">
+          <a href="#" class="works-link">
+            <div class="media-container">
+              <img
+                src="https://cdn.prod.website-files.com/693024c515218072d171e9d9/693024c515218072d171ee5d_crysound.webp"
+                alt="Crysound Project"
+                loading="lazy"
+              >
+              <div class="shader"></div>
+            </div>
+            <div class="project-info">
+              <h2>Listen Carefully</h2>
+              <p>Crysound Visual Identity</p>
+            </div>
+          </a>
         </div>
-        <div class="works-item">
-          <div class="works-item-content">
-            <h3>Project Gamma</h3>
-            <p>HLS video streaming integration</p>
-          </div>
+
+        <div class="works-item" data-project="reforestation">
+          <a href="#" class="works-link">
+            <div class="media-container">
+              <img
+                src="https://cdn.prod.website-files.com/693024c515218072d171e9d9/693024c515218072d171ee78_reforestation.webp"
+                alt="Reforestation Project"
+                loading="lazy"
+              >
+              <div class="shader"></div>
+            </div>
+            <div class="project-info">
+              <h2>Mother Nature's Finest</h2>
+              <p>Nordic Reforestation</p>
+            </div>
+          </a>
         </div>
-        <div class="works-item">
-          <div class="works-item-content">
-            <h3>Project Delta</h3>
-            <p>Advanced scroll effects</p>
-          </div>
+
+        <div class="works-item" data-project="advanced">
+          <a href="#" class="works-link">
+            <div class="media-container">
+              <video
+                class="project-video"
+                autoplay
+                muted
+                loop
+                playsinline
+                src="https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8"
+              ></video>
+              <div class="shader"></div>
+            </div>
+            <div class="project-info">
+              <h2>Advanced Interactions</h2>
+              <p>HLS Video Integration</p>
+            </div>
+          </a>
         </div>
+
       </div>
     </section>
 
-    <!-- Additional Content Section -->
-    <section class="content-section">
+    <!-- Technology Stack Section -->
+    <section class="content-section" id="about">
       <div class="content-wrapper">
         <h2>Technology Stack</h2>
         <ul class="tech-list">
-          <li class="tech-item">GSAP - GreenSock Animation Platform</li>
-          <li class="tech-item">Lenis - Smooth Scroll Library</li>
-          <li class="tech-item">HLS.js - HTTP Live Streaming</li>
-          <li class="tech-item">Vite - Fast Build Tool</li>
+          <li class="tech-item">GSAP - Professional Animation Platform</li>
+          <li class="tech-item">Lenis - Butter-smooth Scrolling</li>
+          <li class="tech-item">HLS.js - Adaptive Video Streaming</li>
+          <li class="tech-item">Vite - Lightning-fast Build Tool</li>
+          <li class="tech-item">IntersectionObserver - Scroll Reveals</li>
         </ul>
       </div>
     </section>

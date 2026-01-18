@@ -7,6 +7,10 @@ A modern web project featuring advanced video streaming with HLS.js and smooth s
 - 🎥 **HLS Video Streaming** - High-quality adaptive video streaming using HLS.js
 - 🎨 **Smooth Animations** - GSAP-powered scroll-triggered animations
 - 🌊 **Smooth Scrolling** - Buttery smooth scrolling experience with Lenis
+- 🖱️ **Custom Cursor** - Granyon-style follow cursor with hover states
+- 📜 **Scroll Reveal** - IntersectionObserver-based reveal animations
+- 🎬 **Media Layers** - Video and image support with shader overlays
+- 🎯 **Fixed Navigation** - Mix-blend-mode navigation that works over any background
 - ⚡ **Fast Development** - Built with Vite for instant hot module replacement
 - 📱 **Responsive Design** - Mobile-first approach with fluid layouts
 
@@ -73,6 +77,39 @@ rance-1500/
 ```
 
 ## Key Features Explained
+
+### Granyon-Inspired Design
+
+This project recreates the sophisticated interaction patterns found in award-winning agency websites like Granyon, including:
+
+- **Custom Follow Cursor**: A smooth-tracking cursor that grows and displays text on hover
+- **Scroll-to-Unfold**: Portfolio items scale and fade in as you scroll
+- **Staggered Grid**: Alternating vertical offsets create visual rhythm
+- **Media Layers**: Support for images, videos, and shader overlays
+- **Mix-Blend-Mode Nav**: Navigation that adapts to any background color
+
+### Custom Cursor
+
+The custom cursor uses `translate3d` for hardware-accelerated performance and automatically detects touch devices to disable itself on mobile:
+
+```javascript
+// Cursor automatically hides on mobile/touch devices
+const isTouchDevice = window.matchMedia('(hover: none)').matches
+```
+
+### Scroll Reveal with IntersectionObserver
+
+Instead of relying solely on GSAP, the portfolio grid uses the native IntersectionObserver API for optimal performance:
+
+```javascript
+// Items reveal when 10% visible with 100px margin
+const observerOptions = {
+  threshold: 0.1,
+  rootMargin: '0px 0px -100px 0px',
+}
+```
+
+This approach is more efficient for simple reveal animations and reduces JavaScript bundle size.
 
 ### HLS Video Streaming
 
