@@ -90,7 +90,9 @@ function initCursorReveal() {
   const previewOverlay = document.querySelector('.preview-overlay')
   const previewImage = document.querySelector('.preview-image')
   const cursorText = document.querySelector('.cursor-text')
-  const workLinks = document.querySelectorAll('.works-link')
+
+  // Select both thumbnail items (opening page) and work links (portfolio grid)
+  const revealTargets = document.querySelectorAll('.thumbnail-item, .works-link')
 
   if (!previewOverlay || !previewImage) {
     console.warn('Preview overlay elements not found')
@@ -114,11 +116,11 @@ function initCursorReveal() {
     setPreviewY(e.clientY)
   })
 
-  // Add hover effects for work links
-  workLinks.forEach((link) => {
-    link.addEventListener('mouseenter', () => {
+  // Add hover effects for all reveal targets
+  revealTargets.forEach((target) => {
+    target.addEventListener('mouseenter', () => {
       // Get the image URL from data attribute
-      const imageUrl = link.getAttribute('data-image')
+      const imageUrl = target.getAttribute('data-image')
 
       if (imageUrl) {
         // Set the preview image source
@@ -134,7 +136,7 @@ function initCursorReveal() {
       }
     })
 
-    link.addEventListener('mouseleave', () => {
+    target.addEventListener('mouseleave', () => {
       // Hide the preview overlay
       previewOverlay.classList.remove('active')
 

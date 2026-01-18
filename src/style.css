@@ -181,87 +181,120 @@ html.lenis {
 }
 
 /* ============================================================================
-   HERO SECTION WITH VIDEO BACKGROUND
+   HERO SECTION (OPENING PAGE - GRANYON STYLE)
    ============================================================================ */
 .hero-section {
   position: relative;
   width: 100%;
   height: 100vh;
-  overflow: hidden;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-}
-
-.video-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-}
-
-.background-video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-}
-
-.video-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.4) 0%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-  z-index: 1;
+  background-color: var(--color-bg-secondary);
 }
 
 .hero-content {
-  position: relative;
-  z-index: 2;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 2rem;
-  color: white;
-}
-
-.tag {
-  background-color: var(--color-primary);
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  color: black;
-  font-weight: 600;
-  letter-spacing: 0.1em;
 }
 
 .hero-title {
-  font-size: clamp(3rem, 10vw, 8rem);
-  font-weight: 400;
-  margin-bottom: 1rem;
-  letter-spacing: -0.03em;
+  font-size: clamp(4rem, 12vw, 10rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
   line-height: 0.9;
+  color: var(--color-text);
 }
 
-.hero-subtitle {
-  font-size: clamp(1.2rem, 2.5vw, 2rem);
-  font-weight: 300;
-  letter-spacing: 0.02em;
-  opacity: 0.9;
+/* Hero Bottom Section with Thumbnails */
+.hero-bottom {
+  width: 100%;
+  padding: 0 4rem 3rem 4rem;
+}
+
+.case-studies-label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.case-studies-label span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.see-all-btn {
+  background-color: var(--color-primary);
+  color: black;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-transform: capitalize;
+  transition: transform 0.2s ease;
+}
+
+.see-all-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Thumbnail Strip */
+.thumbnail-strip {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.thumbnail-strip::-webkit-scrollbar {
+  height: 6px;
+}
+
+.thumbnail-strip::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+}
+
+.thumbnail-strip::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+}
+
+.thumbnail-strip::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.thumbnail-item {
+  flex-shrink: 0;
+  width: 180px;
+  height: 240px;
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+  cursor: none;
+}
+
+.thumbnail-item:hover {
+  transform: translateY(-10px);
+}
+
+.thumbnail-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 /* ============================================================================
