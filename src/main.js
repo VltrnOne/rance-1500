@@ -90,6 +90,7 @@ function initCursorReveal() {
   const previewOverlay = document.querySelector('.preview-overlay')
   const previewImage = document.querySelector('.preview-image')
   const cursorText = document.querySelector('.cursor-text')
+  const heroSection = document.querySelector('.hero-section')
 
   // Select both thumbnail items (opening page) and work links (portfolio grid)
   const revealTargets = document.querySelectorAll('.thumbnail-item, .works-link')
@@ -116,7 +117,46 @@ function initCursorReveal() {
     setPreviewY(e.clientY)
   })
 
-  // Add hover effects for all reveal targets
+  // Collect all available image URLs from thumbnails
+  const imageUrls = Array.from(document.querySelectorAll('.thumbnail-item')).map(
+    (item) => item.getAttribute('data-image')
+  ).filter(Boolean)
+
+  let currentImageIndex = 0
+
+  // Make entire hero section interactive
+  if (heroSection && imageUrls.length > 0) {
+    heroSection.addEventListener('mouseenter', () => {
+      // Set initial image
+      previewImage.src = imageUrls[currentImageIndex]
+      previewOverlay.classList.add('active')
+
+      if (cursorText) {
+        cursorText.textContent = 'View Case'
+      }
+    })
+
+    // Cycle through images as mouse moves across hero
+    let mouseMoveTimeout
+    heroSection.addEventListener('mousemove', () => {
+      clearTimeout(mouseMoveTimeout)
+      mouseMoveTimeout = setTimeout(() => {
+        currentImageIndex = (currentImageIndex + 1) % imageUrls.length
+        previewImage.src = imageUrls[currentImageIndex]
+      }, 800) // Change image every 800ms of movement
+    })
+
+    heroSection.addEventListener('mouseleave', () => {
+      previewOverlay.classList.remove('active')
+      clearTimeout(mouseMoveTimeout)
+
+      if (cursorText) {
+        cursorText.textContent = 'View'
+      }
+    })
+  }
+
+  // Add hover effects for specific reveal targets (portfolio items)
   revealTargets.forEach((target) => {
     target.addEventListener('mouseenter', () => {
       // Get the image URL from data attribute

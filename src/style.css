@@ -192,6 +192,7 @@ html.lenis {
   align-items: center;
   justify-content: center;
   background-color: var(--color-bg-secondary);
+  cursor: none;
 }
 
 .hero-content {
@@ -201,20 +202,32 @@ html.lenis {
   justify-content: center;
   text-align: center;
   padding: 2rem;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 
 .hero-title {
-  font-size: clamp(4rem, 12vw, 10rem);
+  font-size: clamp(8rem, 20vw, 18rem);
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 0.9;
   color: var(--color-text);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  z-index: 1;
 }
 
 /* Hero Bottom Section with Thumbnails */
 .hero-bottom {
   width: 100%;
   padding: 0 4rem 3rem 4rem;
+  position: relative;
+  z-index: 2;
 }
 
 .case-studies-label {
