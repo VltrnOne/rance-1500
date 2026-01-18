@@ -46,9 +46,13 @@ function initCustomCursor() {
     return
   }
 
-  // Move cursor wrapper with mouse using translate3d for better performance
+  // Move cursor wrapper with mouse using GSAP quickSetter for maximum performance
+  const setCursorX = gsap.quickSetter(cursorWrapper, 'x', 'px')
+  const setCursorY = gsap.quickSetter(cursorWrapper, 'y', 'px')
+
   document.addEventListener('mousemove', (e) => {
-    cursorWrapper.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`
+    setCursorX(e.clientX)
+    setCursorY(e.clientY)
   })
 
   // Add hover effects for links and project items
@@ -56,17 +60,88 @@ function initCustomCursor() {
 
   hoverTargets.forEach((target) => {
     target.addEventListener('mouseenter', () => {
-      cursorCircle.style.width = 'var(--cursor-hover-size)'
-      cursorCircle.style.height = 'var(--cursor-hover-size)'
-      cursorCircle.style.backgroundColor = '#fff'
-      cursorText.style.opacity = '1'
+      gsap.to(cursorCircle, {
+        width: 'var(--cursor-hover-size)',
+        height: 'var(--cursor-hover-size)',
+        backgroundColor: '#fff',
+        duration: 0.3,
+        ease: 'power2.out',
+      })
+      gsap.to(cursorText, { opacity: 1, duration: 0.3 })
     })
 
     target.addEventListener('mouseleave', () => {
-      cursorCircle.style.width = 'var(--cursor-size)'
-      cursorCircle.style.height = 'var(--cursor-size)'
-      cursorCircle.style.backgroundColor = '#1a1a1a'
-      cursorText.style.opacity = '0'
+      gsap.to(cursorCircle, {
+        width: 'var(--cursor-size)',
+        height: 'var(--cursor-size)',
+        backgroundColor: '#1a1a1a',
+        duration: 0.3,
+        ease: 'power2.out',
+      })
+      gsap.to(cursorText, { opacity: 0, duration: 0.3 })
+    })
+  })
+}
+
+// ============================================================================
+// CURSOR REVEAL EFFECT (PREVIEW OVERLAY)
+// ============================================================================
+function initCursorReveal() {
+  const previewOverlay = document.querySelector('.preview-overlay')
+  const previewImage = document.querySelector('.preview-image')
+  const cursorText = document.querySelector('.cursor-text')
+  const workLinks = document.querySelectorAll('.works-link')
+
+  if (!previewOverlay || !previewImage) {
+    console.warn('Preview overlay elements not found')
+    return
+  }
+
+  // Check if device supports hover (not touch device)
+  const isTouchDevice = window.matchMedia('(hover: none)').matches
+  if (isTouchDevice) {
+    previewOverlay.style.display = 'none'
+    return
+  }
+
+  // Use GSAP quickSetter for maximum performance (no lag)
+  const setPreviewX = gsap.quickSetter(previewOverlay, 'x', 'px')
+  const setPreviewY = gsap.quickSetter(previewOverlay, 'y', 'px')
+
+  // Move preview overlay with mouse
+  document.addEventListener('mousemove', (e) => {
+    setPreviewX(e.clientX)
+    setPreviewY(e.clientY)
+  })
+
+  // Add hover effects for work links
+  workLinks.forEach((link) => {
+    link.addEventListener('mouseenter', () => {
+      // Get the image URL from data attribute
+      const imageUrl = link.getAttribute('data-image')
+
+      if (imageUrl) {
+        // Set the preview image source
+        previewImage.src = imageUrl
+
+        // Show the preview overlay
+        previewOverlay.classList.add('active')
+
+        // Update cursor text
+        if (cursorText) {
+          cursorText.textContent = 'View Case'
+        }
+      }
+    })
+
+    link.addEventListener('mouseleave', () => {
+      // Hide the preview overlay
+      previewOverlay.classList.remove('active')
+
+      // Reset cursor text
+      if (cursorText) {
+        cursorText.textContent = 'View'
+      }
     })
   })
 }
@@ -274,6 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Initialize all systems
   initCustomCursor()
+  initCursorReveal()
   initScrollReveal()
   initVideoStreaming()
   initScrollAnimations()
@@ -284,5 +360,6 @@ document.addEventListener('DOMContentLoaded', () => {
   console.log('✅ HLS.js supported:', Hls.isSupported())
   console.log('✅ Lenis initialized:', !!lenis)
   console.log('✅ Custom cursor active')
+  console.log('✅ Cursor reveal active')
   console.log('✅ Scroll reveal active')
 })

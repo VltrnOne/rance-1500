@@ -65,6 +65,43 @@ html.lenis {
 }
 
 /* ============================================================================
+   PREVIEW OVERLAY (CURSOR REVEAL EFFECT)
+   ============================================================================ */
+.preview-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  height: 400px;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.8);
+  transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform, opacity;
+}
+
+.preview-overlay.active {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.preview-media-wrapper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ============================================================================
    CUSTOM CURSOR (GRANYON STYLE)
    ============================================================================ */
 .cursor-wrapper {

@@ -8,6 +8,7 @@ A modern web project featuring advanced video streaming with HLS.js and smooth s
 - 🎨 **Smooth Animations** - GSAP-powered scroll-triggered animations
 - 🌊 **Smooth Scrolling** - Buttery smooth scrolling experience with Lenis
 - 🖱️ **Custom Cursor** - Granyon-style follow cursor with hover states
+- 🔍 **Cursor Reveal** - Preview images follow your cursor when hovering over portfolio items
 - 📜 **Scroll Reveal** - IntersectionObserver-based reveal animations
 - 🎬 **Media Layers** - Video and image support with shader overlays
 - 🎯 **Fixed Navigation** - Mix-blend-mode navigation that works over any background
@@ -96,6 +97,32 @@ The custom cursor uses `translate3d` for hardware-accelerated performance and au
 // Cursor automatically hides on mobile/touch devices
 const isTouchDevice = window.matchMedia('(hover: none)').matches
 ```
+
+### Cursor Reveal Effect
+
+The cursor reveal feature creates a preview image that follows your mouse when hovering over portfolio items. This is achieved using:
+
+1. **GSAP QuickSetter**: For buttery-smooth 60fps tracking without layout thrashing
+2. **Data Attributes**: Each portfolio link has a `data-image` attribute with the preview URL
+3. **Fixed Positioning**: A single preview overlay element that repositions on hover
+
+```javascript
+// Use GSAP quickSetter for maximum performance
+const setPreviewX = gsap.quickSetter(previewOverlay, 'x', 'px')
+const setPreviewY = gsap.quickSetter(previewOverlay, 'y', 'px')
+
+// Move preview with mouse
+document.addEventListener('mousemove', (e) => {
+  setPreviewX(e.clientX)
+  setPreviewY(e.clientY)
+})
+```
+
+The effect only activates on hover-capable devices and automatically hides on mobile. When you hover over a portfolio item:
+- The preview image loads from the `data-image` attribute
+- The overlay fades in with a scale animation
+- The cursor text changes to "View Case"
+- Moving your mouse moves both the cursor and the preview
 
 ### Scroll Reveal with IntersectionObserver
 
