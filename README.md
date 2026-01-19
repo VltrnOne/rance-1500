@@ -12,6 +12,7 @@ A modern web project featuring advanced video streaming with HLS.js and smooth s
 - 📜 **Scroll Reveal** - IntersectionObserver-based reveal animations
 - 🎬 **Media Layers** - Video and image support with shader overlays
 - 🎯 **Fixed Navigation** - Mix-blend-mode navigation that works over any background
+- 🤖 **Gamma API Integration** - AI-powered presentation generation with Gamma.app
 - ⚡ **Fast Development** - Built with Vite for instant hot module replacement
 - 📱 **Responsive Design** - Mobile-first approach with fluid layouts
 
@@ -21,6 +22,7 @@ A modern web project featuring advanced video streaming with HLS.js and smooth s
 - **GSAP (GreenSock Animation Platform)** - Professional-grade animation library
 - **HLS.js** - HTTP Live Streaming implementation for browsers
 - **Lenis** - Smooth scroll library for fluid scrolling effects
+- **Gamma API** - AI-powered presentation and document generation
 - **Vanilla JavaScript** - No framework dependencies, pure performance
 
 ## Getting Started
@@ -43,12 +45,20 @@ cd rance-1500
 npm install
 ```
 
-3. Start the development server:
+3. Configure Gamma API (optional):
+```bash
+cp .env.example .env
+# Edit .env and add your Gamma API key
+```
+
+4. Start the development server:
 ```bash
 npm run dev
 ```
 
 The site will be available at `http://localhost:5173`
+
+> **Note:** Gamma API integration requires a Pro account or higher. See [GAMMA_INTEGRATION.md](GAMMA_INTEGRATION.md) for detailed setup instructions.
 
 ### Build for Production
 
