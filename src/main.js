@@ -3,6 +3,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import Hls from 'hls.js'
 import Lenis from 'lenis'
+import { initGammaEmbeds } from './gamma-embed.js'
 
 // Register GSAP plugins
 gsap.registerPlugin(ScrollTrigger)
@@ -122,13 +123,11 @@ function initCursorReveal() {
     (item) => item.getAttribute('data-image')
   ).filter(Boolean)
 
-  let currentImageIndex = 0
-
   // Make entire hero section interactive
   if (heroSection && imageUrls.length > 0) {
     heroSection.addEventListener('mouseenter', () => {
       // Set initial image
-      previewImage.src = imageUrls[currentImageIndex]
+      previewImage.src = imageUrls[0]
       previewOverlay.classList.add('active')
 
       if (cursorText) {
@@ -136,19 +135,32 @@ function initCursorReveal() {
       }
     })
 
-    // Cycle through images as mouse moves across hero
-    let mouseMoveTimeout
-    heroSection.addEventListener('mousemove', () => {
-      clearTimeout(mouseMoveTimeout)
-      mouseMoveTimeout = setTimeout(() => {
-        currentImageIndex = (currentImageIndex + 1) % imageUrls.length
-        previewImage.src = imageUrls[currentImageIndex]
-      }, 800) // Change image every 800ms of movement
+    // Cycle through images based on cursor position
+    heroSection.addEventListener('mousemove', (e) => {
+      // Get the bounding rectangle of the hero section
+      const rect = heroSection.getBoundingClientRect()
+      
+      // Calculate mouse position relative to hero section (0 to 1)
+      const xPercent = (e.clientX - rect.left) / rect.width
+      const yPercent = (e.clientY - rect.top) / rect.height
+      
+      // Combine X and Y position for more dynamic cycling
+      // You can adjust the formula to prioritize X or Y axis
+      const combinedPercent = (xPercent * 0.7 + yPercent * 0.3)
+      
+      // Map to image index (0 to imageUrls.length - 1)
+      const imageIndex = Math.floor(combinedPercent * imageUrls.length)
+      const clampedIndex = Math.min(imageIndex, imageUrls.length - 1)
+      
+      // Update image if index changed
+      const newImageUrl = imageUrls[clampedIndex]
+      if (previewImage.src !== newImageUrl) {
+        previewImage.src = newImageUrl
+      }
     })
 
     heroSection.addEventListener('mouseleave', () => {
       previewOverlay.classList.remove('active')
-      clearTimeout(mouseMoveTimeout)
 
       if (cursorText) {
         cursorText.textContent = 'View'
@@ -396,6 +408,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initVideoStreaming()
   initScrollAnimations()
   initSmoothAnchors()
+  initGammaEmbeds()
 
   // Log installed libraries
   console.log('✅ GSAP version:', gsap.version)

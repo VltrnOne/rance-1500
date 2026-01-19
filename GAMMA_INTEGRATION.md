@@ -1,6 +1,32 @@
-# Gamma API Integration
+# Gamma Integration
 
-This project includes integration with Gamma.app API v1.0 for AI-powered presentation and document generation.
+This project includes **two ways** to integrate with Gamma.app:
+
+## 1. Embed Integration (No API Required) ⭐ Recommended for Portfolios
+
+Showcase Gamma presentations directly in your site with a beautiful modal viewer. No API key needed!
+
+**Features:**
+- 🎯 Click any element to open Gamma presentations
+- 🎨 Beautiful fullscreen modal with animations
+- 📱 Fully responsive (mobile & desktop)
+- ⌨️ Keyboard support (ESC to close)
+- ⚡ Auto-initialization with `data-gamma` attributes
+
+**Quick Start:**
+```html
+<a href="#" data-gamma="https://gamma.app/docs/your-presentation">
+  View Presentation
+</a>
+```
+
+See **[GAMMA_EMBED_USAGE.md](GAMMA_EMBED_USAGE.md)** for complete documentation.
+
+---
+
+## 2. API Integration (Programmatic Generation)
+
+This project also includes integration with Gamma.app API v1.0 for AI-powered presentation and document generation.
 
 ## Setup
 
